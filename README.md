@@ -3,8 +3,7 @@
 ## Requirements
 Before running the ETL pipeline please ensure that your machine has installed:
 ~~~
-mac: python3, java 17/21, apache-spark
-win: python3, java 17/21, apache-spark, hardoop
+python3, java 17/21, apache-spark
 ~~~
 Create a free account with Polygon: https://polygon.io/docs/stocks/getting-started
 
