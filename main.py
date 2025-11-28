@@ -38,14 +38,19 @@ def main():
 
     #Track runtime
     start_time = datetime.now()
+    t = start_time.strftime("%Y%m%d")
 
     #Get environment variables
     start_date = os.environ['START_DATE']
     end_date = os.environ['END_DATE']
     local_raw = os.environ['LOCAL_RAW']
     local_processed = os.environ['LOCAL_PROCESSED']
+    local_outputs = os.environ['LOCAL_OUTPUTS']
     api_key = os.environ['MASSIVE_API_KEY']
-    reload = False
+    reload = True if os.environ["RELOAD"] == "True" else False
+
+    os.makedirs(local_processed, exist_ok=True)
+    os.makedirs(local_outputs, exist_ok=True)
 
     #API has a 5 requests per minute limit (approx 12 seconds, chose 15 to be safe)
     wait = 15
@@ -55,7 +60,7 @@ def main():
         logger.info("Spark session created")
 
         #Step 1: Read CSV to DataFrame and get a list of all 
-        symbols_df = extract_csv_data(spark,"data/raw/stocks.csv",stocks_list_schema)
+        symbols_df = extract_csv_data(spark,local_raw + "stocks.csv",stocks_list_schema)
         symbols_list = symbols_df.select('symbol').rdd.flatMap(lambda x: x).collect()
 
         #Step 2: Extract snapshots for each symbol from Massive REST API
@@ -70,7 +75,7 @@ def main():
                 #Read to dataframe
                 logger.info(f"Writing data for {symbol}")
                 df = spark.createDataFrame(snapshots, schema=snapshot_schema)
-                df.coalesce(1).write.mode("overwrite").parquet(local_raw + f'{symbol}')
+                df.coalesce(1).write.mode("overwrite").parquet(local_raw + 'stocks/' + f'{symbol}')
 
                 #Added delay to avoid 429 error on number and frequency of requests (rate limiting)
                 #Avoided threading requests as this compounds rate limiting issue
@@ -78,7 +83,7 @@ def main():
                 time.sleep(wait)
 
         #Step 3: Consolidate all snapshots into one fact table
-        stocks_df = create_fact_table(spark,symbols_df,symbols_list,local_raw)
+        stocks_df = create_fact_table(spark,symbols_df,symbols_list,local_raw + 'stocks/')
         logger.info(f"Writing fact data")
         stocks_df.repartition("symbol").write.mode("overwrite").parquet(local_processed + 'fact')
 
@@ -88,7 +93,7 @@ def main():
 
         # Save to JSON
         logger.info(f"Producing final output")
-        with open(local_processed + "analysis.json", "w") as f:
+        with open(local_outputs + f"analysis_{t}.json", "w") as f:
             json.dump(answers, f, indent=4)
     
     except Exception as e:
