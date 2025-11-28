@@ -91,7 +91,7 @@ def main():
         logger.info(f"Performing calculations")
         answers = run_analysis(stocks_df)
 
-        # Save to JSON
+        #Step 5: Save to JSON
         logger.info(f"Producing final output")
         with open(local_outputs + f"analysis_{t}.json", "w") as f:
             json.dump(answers, f, indent=4)

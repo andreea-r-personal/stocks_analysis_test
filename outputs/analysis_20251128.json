@@ -1,0 +1,30 @@
+[
+    {
+        "question_id": 1,
+        "question": "Which stock has had the greatest relative increase in price in this period?",
+        "answer": "'NVIDIA Corporation' with an increase of 179.0%",
+        "symbol": "NVDA",
+        "value": 1.79
+    },
+    {
+        "question_id": 2,
+        "question": "If you had invested $1 million at the beginning of this period by purchasing $10,000 worth of shares in every company in the list equally, how much would you have today?",
+        "answer": "You would have approximately 1140145.",
+        "symbol": "",
+        "value": 1140145
+    },
+    {
+        "question_id": 3,
+        "question": "Which stock had the greatest value in monthly CAGR between January and June?",
+        "answer": "'NVIDIA Corporation' with a CAGR of 0.16.",
+        "symbol": "NVDA",
+        "value": 0.16
+    },
+    {
+        "question_id": 4,
+        "question": "During the year, which stock had the greatest decrease in value within a single week and which week was this?",
+        "answer": "'Booking Holdings Inc.' with a decrease of -1582.73 in week 1.",
+        "symbol": "BKNG",
+        "value": 1
+    }
+]
