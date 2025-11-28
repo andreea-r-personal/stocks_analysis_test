@@ -1,5 +1,6 @@
 /.env
-/data
+/data/raw/stocks
+/data/processed
 /env
 /logs
 /test_notebook.ipynb
