@@ -1,0 +1,6 @@
+/.env
+/data
+/env
+/logs
+/test_notebook.ipynb
+/src/__pycache__
