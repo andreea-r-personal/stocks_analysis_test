@@ -21,7 +21,7 @@ source env/bin/activate
 ~~~
 5. Install required libraries:
 ~~~
-pip install requirements.text
+pip install -r requirements.text
 ~~~
 
 ## Running the pipeline
