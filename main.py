@@ -61,7 +61,7 @@ def main():
 
         #Step 1: Read CSV to DataFrame and get a list of all 
         symbols_df = extract_csv_data(spark,local_raw + "stocks.csv",stocks_list_schema)
-        symbols_list = symbols_df.select('symbol').rdd.flatMap(lambda x: x).collect()
+        symbols_list = [row["symbol"] for row in symbols_df.select("symbol").collect()]
 
         #Step 2: Extract snapshots for each symbol from Massive REST API
         client = RESTClient(api_key = api_key, trace=True)
