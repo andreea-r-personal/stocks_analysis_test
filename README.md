@@ -1,6 +1,6 @@
 # ReadMe
 
-##Requirements
+## Requirements
 Before running the ETL pipeline please ensure that your machine has **python3, java 17/21 and apache-spark** installed and that the relevant paths are configured.
 
 ## Set-up Environment
